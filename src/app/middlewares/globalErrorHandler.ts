@@ -7,6 +7,7 @@ import handleValidationError from "../errors/handleValidationError"
 import handleCastError from "../errors/handleCastError"
 import handleDuplicateError from "../errors/handleDuplicateError"
 import AppError from "../errors/handleAppError"
+import httpStatus from "http-status"
 
 const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
   let statusCode = httpStatus.BAD_REQUEST
@@ -20,8 +21,8 @@ const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
 
   if (err instanceof ZodError) {
     const simplifiedError = handleZodError(err)
-    statusCode = simplifiedError?.statusCode
-    message = simplifiedError?.message
+    statusCode = simplifiedError.statusCode
+    message = simplifiedError.message
     error = simplifiedError.error
   } else if (err?.name === "ValidationError") {
     const simplifiedError = handleValidationError(err)
