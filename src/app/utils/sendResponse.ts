@@ -1,11 +1,15 @@
 import { Response } from "express"
-import httpStatus from "http-status"
 
-const sendResponse = <T>(res: Response, message: string, data: T) => {
-  return res.status(httpStatus.CREATED).json({
+const sendResponse = <T>(
+  res: Response,
+  code: number,
+  message: string,
+  data: T
+) => {
+  return res.status(code).json({
     success: true,
     message: `${message} successfully!`,
-    statusCode: httpStatus.CREATED,
+    statusCode: code,
     data: data,
   })
 }

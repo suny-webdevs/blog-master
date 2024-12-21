@@ -24,7 +24,7 @@ class QueryBuilder<I> {
   filter() {
     let queryObj = { ...this.query }
     // Excluded fields
-    const excludeFields = ["search", "sort", "limit", "page", "fields"]
+    const excludeFields = ["search", "sortOrder", "limit", "page", "sortBy"]
     excludeFields.forEach((element) => delete queryObj[element])
 
     this.queryModel = this.queryModel.find(queryObj as FilterQuery<I>)
@@ -34,7 +34,8 @@ class QueryBuilder<I> {
 
   sort() {
     const sort =
-      (this?.query?.sort as string)?.split(",")?.join(" ") || "-createdAt"
+      (this?.query?.sortOrder as string)?.split(",")?.join(" ") || "-createdAt"
+
     this.queryModel = this.queryModel.sort(sort as string)
     return this
   }
@@ -51,7 +52,7 @@ class QueryBuilder<I> {
 
   fields() {
     const fields =
-      (this?.query?.fields as string)?.split(",")?.join(" ") || "-__v"
+      (this?.query?.sortBy as string)?.split(",")?.join(" ") || "-__v"
     this.queryModel = this.queryModel.select(fields)
     return this
   }
