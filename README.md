@@ -54,7 +54,7 @@
 - **Request Body:**
   ```json
   {
-    "username": "string",
+    "name": "string",
     "email": "string",
     "password": "string"
   }
@@ -62,8 +62,20 @@
 - **Response:**
   ```json
   {
+    "success": true,
     "message": "User registered successfully",
-    "userId": "string"
+    "statusCode": 201,
+    "data": {
+      "_id": "string",
+      "name": "string",
+      "email": "string",
+      "password": "string",
+      "role": "string",
+      "isBlocked": "boolean",
+      "isDeleted": "boolean",
+      "createdAt": "string",
+      "updatedAt": "string"
+    }
   }
   ```
 
@@ -81,7 +93,12 @@
 - **Response:**
   ```json
   {
-    "token": "string"
+    "success": true,
+    "message": "Login successfully",
+    "statusCode": 200,
+    "data": {
+      "token": "string"
+    }
   }
   ```
 
@@ -101,8 +118,17 @@
 - **Response:**
   ```json
   {
+    "success": true,
     "message": "Blog created successfully",
-    "blogId": "string"
+    "statusCode": 201,
+    "data": {
+      "_id": "string",
+      "title": "string",
+      "content": "string",
+      "isPublished": "boolean",
+      "createdAt": "string",
+      "updatedAt": "string"
+    }
   }
   ```
 
@@ -113,11 +139,16 @@
 - **Response:**
   ```json
   [
-    {
-      "id": "string",
+    "success": true,
+    "message": "Blogs fetched successfully",
+    "statusCode": 200,
+    "data": {
+      "_id": "string",
       "title": "string",
       "content": "string",
-      "author": "string"
+      "isPublished": "boolean",
+      "createdAt": "string",
+      "updatedAt": "string"
     }
   ]
   ```
@@ -129,10 +160,17 @@
 - **Response:**
   ```json
   {
-    "id": "string",
-    "title": "string",
-    "content": "string",
-    "author": "string"
+    "success": true,
+    "message": "Blog fetched successfully",
+    "statusCode": 200,
+    "data": {
+      "_id": "string",
+      "title": "string",
+      "content": "string",
+      "isPublished": "boolean",
+      "createdAt": "string",
+      "updatedAt": "string"
+    }
   }
   ```
 
@@ -145,7 +183,9 @@
 - **Response:**
   ```json
   {
-    "message": "User deleted successfully"
+    "success": true,
+    "message": "User deleted successfully",
+    "statusCode": 200
   }
   ```
 
@@ -156,7 +196,9 @@
 - **Response:**
   ```json
   {
-    "message": "Blog deleted successfully"
+    "success": true,
+    "message": "Blog deleted successfully",
+    "statusCode": 200
   }
   ```
 
