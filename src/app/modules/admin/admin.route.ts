@@ -7,15 +7,12 @@ const router = Router()
 
 router.get("/users", auth("admin"), AdminControllers.getAllUsers)
 router.get("/users/:userId", auth("admin"), AdminControllers.getAUser)
-router.patch(
-  "/users/:userId/block",
-  auth(USER_ROLE.admin),
-  AdminControllers.blockAUser
-)
+router.patch("/users/:userId/block", auth("admin"), AdminControllers.blockAUser)
 router.delete(
-  "/blogs/:blogId",
-  auth(USER_ROLE.admin),
-  AdminControllers.deleteABlog
+  "/users/:userId/delete",
+  auth("admin"),
+  AdminControllers.deleteAUser
 )
+router.delete("/blogs/:blogId", auth("admin"), AdminControllers.deleteABlog)
 
 export const AdminRoutes = router

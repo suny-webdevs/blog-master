@@ -19,8 +19,13 @@ const blockAUser = catchAsync(async (req, res) => {
 })
 
 const deleteABlog = catchAsync(async (req, res) => {
-  const data = await AdminServices.deleteABlog(req.params.blogId, req.user)
-  sendResponse(res, httpStatus.OK, "User blocked", data)
+  const data = await AdminServices.deleteABlog(req.params.blogId)
+  sendResponse(res, httpStatus.OK, "Blog deleted", data)
+})
+
+const deleteAUser = catchAsync(async (req, res) => {
+  const data = await AdminServices.deleteAUser(req.params.userId)
+  sendResponse(res, httpStatus.OK, "User deleted", data)
 })
 
 export const AdminControllers = {
@@ -28,4 +33,5 @@ export const AdminControllers = {
   getAUser,
   blockAUser,
   deleteABlog,
+  deleteAUser,
 }

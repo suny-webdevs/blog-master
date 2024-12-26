@@ -31,15 +31,13 @@ const blockAUser = async (id: string, user: JwtPayload) => {
   return data
 }
 
-const deleteABlog = async (id: string, user: JwtPayload) => {
-  if (user && user?.role !== "admin") {
-    throw new AppError(
-      httpStatus.UNAUTHORIZED,
-      "You are not authorized for delete a blog"
-    )
-  }
-
+const deleteABlog = async (id: string) => {
   const data = await Blog.findByIdAndDelete(id)
+  return data
+}
+
+const deleteAUser = async (id: string) => {
+  const data = await User.findByIdAndDelete(id)
   return data
 }
 
@@ -48,4 +46,5 @@ export const AdminServices = {
   getAUser,
   blockAUser,
   deleteABlog,
+  deleteAUser,
 }
