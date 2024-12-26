@@ -2,7 +2,7 @@
 
 ## 🚀 **Project Overview**
 
-**Blog Master** is a backend application for managing a blogging platform. It provides APIs for user authentication, blog management, and admin controls. Built with **TypeScript**, **Express.js**, **MongoDB**, **Mongoose**, and **Node.js**, it ensures scalability, security, and efficiency.
+**Blog Master** is a backend application for managing a blogging platform. It provides APIs for user authentication, blog management, and admin controls. Built with **TypeScript**, **Express.js**, **MongoDB**, **Mongoose**, and **Node.js**, it ensures scalability, security, and efficiency. [Live link](https://blogmasters.vercel.app/)
 
 ---
 
