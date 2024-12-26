@@ -1,6 +1,4 @@
 import { FilterQuery, Query } from "mongoose"
-import AppError from "../errors/handleAppError"
-import httpStatus from "http-status"
 
 class QueryBuilder<I> {
   constructor(
