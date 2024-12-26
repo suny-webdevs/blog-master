@@ -1,4 +1,6 @@
 import { FilterQuery, Query } from "mongoose"
+import AppError from "../errors/handleAppError"
+import httpStatus from "http-status"
 
 class QueryBuilder<I> {
   constructor(
@@ -9,21 +11,23 @@ class QueryBuilder<I> {
   search(searchAbleFields: string[]) {
     const search = this?.query?.search || ""
 
-    this.queryModel = this.queryModel.find({
-      $or: searchAbleFields.map(
-        (field) =>
-          ({
-            [field]: { $regex: search, $options: "i" },
-          } as FilterQuery<I>)
-      ),
-    })
+    if (search) {
+      this.queryModel = this.queryModel.find({
+        $or: searchAbleFields.map(
+          (field) =>
+            ({
+              [field]: { $regex: search, $options: "i" },
+            } as FilterQuery<I>)
+        ),
+      })
+    }
 
     return this
   }
 
   filter() {
     let queryObj = { ...this.query }
-    // Excluded fields
+
     const excludeFields = ["search", "sortOrder", "limit", "page", "sortBy"]
     excludeFields.forEach((element) => delete queryObj[element])
 
@@ -33,8 +37,13 @@ class QueryBuilder<I> {
   }
 
   sort() {
-    const sort =
-      (this?.query?.sortOrder as string)?.split(",")?.join(" ") || "-createdAt"
+    let sort = this?.query?.sortOrder as string
+
+    if (sort && sort === "asc") {
+      sort = "createdAt"
+    } else if (sort && sort === "desc") {
+      sort = "-createdAt"
+    }
 
     this.queryModel = this.queryModel.sort(sort as string)
     return this

@@ -3,6 +3,7 @@ import { IUser, UserModel } from "./user.interface"
 import { UserRole } from "./user.constant"
 import bcrypt from "bcrypt"
 import config from "../../config"
+import { JwtPayload } from "jsonwebtoken"
 
 const userSchema = new Schema<IUser, UserModel>(
   {
@@ -14,7 +15,7 @@ const userSchema = new Schema<IUser, UserModel>(
       lowercase: true,
       required: true,
     },
-    password: { type: String, required: true },
+    password: { type: String, required: true, select: 0 },
     role: { type: String, enum: UserRole, default: "user" },
     isBlocked: { type: Boolean, default: false },
     isDeleted: { type: Boolean, default: false },
@@ -55,8 +56,9 @@ userSchema.post("save", function (doc, next) {
 
 // Statics
 userSchema.statics.isUserExistsByEmail = async function (email: string) {
-  return await User.findOne({ email })
+  return await User.findOne({ email }).select("+password")
 }
+
 userSchema.statics.isPasswordMatched = async function (
   plainTextPassword: string,
   hashedPassword: string

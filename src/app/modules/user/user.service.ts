@@ -5,7 +5,7 @@ import httpStatus from "http-status"
 
 const createUser = async (payload: IUser) => {
   const newUserEmail = payload?.email
-  const isUserExists = await User.findOne({ email: newUserEmail })
+  const isUserExists = await User.isUserExistsByEmail(newUserEmail)
   if (isUserExists) {
     throw new AppError(
       httpStatus.BAD_REQUEST,

@@ -3,41 +3,33 @@ import AppError from "../../errors/handleAppError"
 import { User } from "../user/user.model"
 import { IAuth } from "./auth.interface"
 import httpStatus from "http-status"
-import jwt from "jsonwebtoken"
+import { createToken } from "./auth.utils"
 
 const loginUser = async (payload: IAuth) => {
   const user = await User.isUserExistsByEmail(payload?.email)
-  if (!user) {
-    throw new AppError(httpStatus.NOT_FOUND, "User not found")
-  }
-  const isBlocked = user?.isBlocked
-  if (isBlocked) {
-    throw new AppError(httpStatus.FORBIDDEN, "User is blocked")
-  }
-
-  const isDeleted = user?.isDeleted
-  if (isDeleted) {
-    throw new AppError(httpStatus.BAD_REQUEST, "User was deleted")
-  }
 
   const isPasswordMatched = await User.isPasswordMatched(
     payload?.password,
     user?.password
   )
-  if (!isPasswordMatched) {
-    throw new AppError(httpStatus.FORBIDDEN, "Password did not matched")
+
+  if (!isPasswordMatched || !user || user?.isBlocked || user?.isDeleted) {
+    throw new AppError(httpStatus.UNAUTHORIZED, "Invalid credentials")
   }
 
   const jwtPayload = {
+    _id: user?._id,
     email: user?.email,
     role: user?.role,
   }
 
-  const accessToken = jwt.sign(jwtPayload, config.jwt_secret as string, {
-    expiresIn: "10d",
-  })
+  const token = createToken(
+    jwtPayload,
+    config.jwt_access_secret as string,
+    config.jwt_access_expire as string
+  )
 
-  return { accessToken }
+  return { token }
 }
 
 export const AuthServices = {
