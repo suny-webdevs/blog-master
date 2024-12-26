@@ -31,6 +31,13 @@ class QueryBuilder<I> {
     const excludeFields = ["search", "sortOrder", "limit", "page", "sortBy"]
     excludeFields.forEach((element) => delete queryObj[element])
 
+    if (queryObj.filter) {
+      this.queryModel = this.queryModel.find({
+        author: queryObj.filter,
+      } as FilterQuery<I>)
+      delete queryObj.filter
+    }
+
     this.queryModel = this.queryModel.find(queryObj as FilterQuery<I>)
 
     return this
